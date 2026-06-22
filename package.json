@@ -1,0 +1,21 @@
+{
+  "name": "first-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mayursapkale009/DevSecOpc-Hello-Word.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mayursapkale009/DevSecOpc-Hello-Word/issues"
+  },
+  "homepage": "https://github.com/mayursapkale009/DevSecOpc-Hello-Word#readme"
+}
