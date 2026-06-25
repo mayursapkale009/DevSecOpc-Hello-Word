@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="slate-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero to Production: AWS DevOps Journey | Mayur Sapkale</title>
+  
+  <!-- Google Fonts: Outfit for Display, Inter for Body, JetBrains Mono for Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <!-- Reading Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="readingProgress"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- COLUMN 1: LEFT SIDEBAR (Profile, Navigation, Socials, Theme Toggle) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="profile-avatar">
+          <span class="avatar-letter">M</span>
+          <div class="status-badge"></div>
+        </div>
+        <div class="profile-info">
+          <h2>Mayur Sapkale</h2>
+          <p>Cybersecurity & DevOps Student</p>
+        </div>
+      </div>
+
+      <!-- Navigation Index -->
+      <nav class="sidebar-nav">
+        <p class="nav-title">Sections</p>
+        <ul class="nav-links">
+          <li><a href="#introduction" class="active"><i data-lucide="book-open"></i> <span>Introduction</span></a></li>
+          <li><a href="#step-1"><i data-lucide="terminal"></i> <span>1. AWS EC2 Launch</span></a></li>
+          <li><a href="#step-2"><i data-lucide="download"></i> <span>2. Node.js & Git</span></a></li>
+          <li><a href="#step-3"><i data-lucide="git-branch"></i> <span>3. Clone & Run</span></a></li>
+          <li><a href="#step-4"><i data-lucide="cpu"></i> <span>4. PM2 Manager</span></a></li>
+          <li><a href="#step-5"><i data-lucide="shuffle"></i> <span>5. Nginx Proxy</span></a></li>
+          <li><a href="#step-6"><i data-lucide="hammer"></i> <span>6. AWS CodeBuild</span></a></li>
+          <li><a href="#step-7"><i data-lucide="hard-drive"></i> <span>7. S3 Regions</span></a></li>
+          <li><a href="#step-8"><i data-lucide="shield-alert"></i> <span>8. AWS Inspector</span></a></li>
+          <li><a href="#step-9"><i data-lucide="x-circle"></i> <span>9. Pipeline Tests</span></a></li>
+          <li><a href="#step-10"><i data-lucide="key-round"></i> <span>10. IAM Permissions</span></a></li>
+          <li><a href="#step-11"><i data-lucide="server"></i> <span>11. CodeDeploy</span></a></li>
+          <li><a href="#step-12"><i data-lucide="globe"></i> <span>12. Domain setup</span></a></li>
+          <li><a href="#step-13"><i data-lucide="search"></i> <span>13. DNS Debug</span></a></li>
+          <li><a href="#step-14"><i data-lucide="unlock"></i> <span>14. HTTPS Check</span></a></li>
+          <li><a href="#step-15"><i data-lucide="lock"></i> <span>15. SSL Certbot</span></a></li>
+          <li><a href="#conclusion-section"><i data-lucide="check-circle"></i> <span>Conclusion</span></a></li>
+        </ul>
+      </nav>
+
+      <!-- Theme Switcher & Social Links -->
+      <div class="sidebar-footer">
+        <div class="theme-selector-container">
+          <p class="footer-title">Theme</p>
+          <div class="theme-buttons">
+            <button class="theme-btn active" data-theme-val="slate-dark" title="Slate Dark">
+              <i data-lucide="moon"></i>
+            </button>
+            <button class="theme-btn" data-theme-val="minimal-light" title="Minimal Light">
+              <i data-lucide="sun"></i>
+            </button>
+            <button class="theme-btn" data-theme-val="steel-navy" title="Steel Navy">
+              <i data-lucide="compass"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="social-links-container">
+          <p class="footer-title">Connect</p>
+          <div class="social-links">
+            <a href="https://github.com/mayursapkale009" target="_blank" class="social-link" title="GitHub">
+              <i data-lucide="github"></i>
+            </a>
+            <a href="https://linkedin.com/in/mayursapkale" target="_blank" class="social-link" title="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+            <a href="https://x.com/mayursapkale" target="_blank" class="social-link" title="X (Twitter)">
+              <i data-lucide="twitter"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- COLUMN 2: CENTER PANEL (Tabbed Navigation, Detailed Guide, Interactive Views) -->
+    <main class="main-content">
+      
+      <!-- Top Navbar tabs -->
+      <header class="content-header">
+        <div class="header-title">
+          <span class="badge">AWS Cloud & DevOps</span>
+          <h1>From Zero to Production</h1>
+        </div>
+        <div class="tabs-control">
+          <button class="tab-btn active" data-tab="guide"><i data-lucide="book"></i> Guide</button>
+          <button class="tab-btn" data-tab="architecture"><i data-lucide="milestone"></i> Architecture Map</button>
+          <button class="tab-btn" data-tab="troubleshooting"><i data-lucide="bug"></i> Troubleshooting Lab</button>
+        </div>
+      </header>
+
+      <!-- TAB 1: GUIDE CONTENT -->
+      <section class="tab-content active" id="tab-guide">
+        <div class="guide-intro hero-card" id="introduction">
+          <div class="hero-bg-accent"></div>
+          <div class="hero-content">
+            <h1>From Zero to Production: Deploying a Node.js Application on AWS EC2</h1>
+            <p class="hero-subtitle">A Cybersecurity Student's complete roadmap covering Nginx, PM2, Custom Domains, SSL Certificates, and AWS CI/CD pipelines.</p>
+            <div class="hero-meta">
+              <div class="meta-item"><i data-lucide="user"></i> Mayur Sapkale</div>
+              <div class="meta-item"><i data-lucide="clock"></i> 15 mins read</div>
+              <div class="meta-item"><i data-lucide="shield"></i> DevSecOps / Cloud Security</div>
+            </div>
+            
+            <div class="intro-box">
+              <p>As a cybersecurity student learning cloud and DevOps, I wanted to understand how real-world applications are deployed in production. Instead of only watching tutorials, I decided to build and deploy my own Node.js application on AWS.</p>
+              <p>This article documents my complete journey, mistakes, errors, solutions, and lessons learned.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide Steps List -->
+        <div class="steps-timeline">
+          
+          <!-- Step 1 -->
+          <article class="step-card" id="step-1">
+            <div class="step-badge">Step 1</div>
+            <div class="step-header">
+              <h2>Launching an AWS EC2 Instance</h2>
+              <span class="step-icon"><i data-lucide="server"></i></span>
+            </div>
+            <div class="step-body">
+              <p>The journey started by launching an <strong>Amazon Linux 2023 EC2 instance</strong>. To configure network access, I set up a security group to control incoming traffic:</p>
+              
+              <div class="spec-grid">
+                <div class="spec-card">
+                  <span class="spec-label">SSH</span>
+                  <span class="spec-value">Port 22</span>
+                  <span class="spec-desc">Admin access</span>
+                </div>
+                <div class="spec-card">
+                  <span class="spec-label">HTTP</span>
+                  <span class="spec-value">Port 80</span>
+                  <span class="spec-desc">Web traffic</span>
+                </div>
+                <div class="spec-card">
+                  <span class="spec-label">HTTPS</span>
+                  <span class="spec-value">Port 443</span>
+                  <span class="spec-desc">Secure web</span>
+                </div>
+                <div class="spec-card">
+                  <span class="spec-label">Custom TCP</span>
+                  <span class="spec-value">Port 3000</span>
+                  <span class="spec-desc">Node.js default</span>
+                </div>
+              </div>
+
+              <p>Initially, the web application was accessed directly using the public IP on the custom application port:</p>
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Initial Access URL</span>
+                  <button class="copy-btn" data-copy="http://4.7.45.100:3000"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>http://EC2-PUBLIC-IP:3000</code></pre>
+              </div>
+              <p class="success-note"><i data-lucide="check-circle-2"></i> Initial verification succeeded! The express landing page rendered successfully.</p>
+            </div>
+          </article>
+
+          <!-- Step 2 -->
+          <article class="step-card" id="step-2">
+            <div class="step-badge">Step 2</div>
+            <div class="step-header">
+              <h2>Installing Node.js & Git on Linux</h2>
+              <span class="step-icon"><i data-lucide="terminal"></i></span>
+            </div>
+            <div class="step-body">
+              <p>Once the EC2 was running, I connected via SSH and updated the environment, then installed Node.js and Git.</p>
+              
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Terminal Setup Commands</span>
+                  <button class="copy-btn" data-copy="ssh -i key.pem ec2-user@PUBLIC-IP
+sudo dnf update -y
+sudo dnf install git -y
+sudo dnf install nodejs -y"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Connect to EC2
+ssh -i key.pem ec2-user@PUBLIC-IP
+
+# Update system package manager (DNF on AL2023)
+sudo dnf update -y
+
+# Install Git & Node.js
+sudo dnf install git -y
+sudo dnf install nodejs -y</code></pre>
+              </div>
+
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Verify Installation</span>
+                  <button class="copy-btn" data-copy="node -v
+npm -v"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>node -v
+npm -v</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 3 -->
+          <article class="step-card" id="step-3">
+            <div class="step-badge">Step 3</div>
+            <div class="step-header">
+              <h2>Cloning GitHub Repository</h2>
+              <span class="step-icon"><i data-lucide="git-clone"></i></span>
+            </div>
+            <div class="step-body">
+              <p>Next, I cloned the project files directly from the GitHub repository into the EC2 instance home directory, installed node packages, and spun up the server:</p>
+              
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Cloning & Setup</span>
+                  <button class="copy-btn" data-copy="git clone https://github.com/username/project.git
+cd project
+npm install
+node index.js"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Clone the project code
+git clone https://github.com/username/project.git
+cd project
+
+# Fetch dependencies and run index.js
+npm install
+node index.js</code></pre>
+              </div>
+              <p>The application became responsive and accessible on <code>http://PUBLIC-IP:3000</code>.</p>
+            </div>
+          </article>
+
+          <!-- Step 4 -->
+          <article class="step-card" id="step-4">
+            <div class="step-badge">Step 4</div>
+            <div class="step-header">
+              <h2>Configuring PM2 Process Manager</h2>
+              <span class="step-icon"><i data-lucide="cpu"></i></span>
+            </div>
+            <div class="step-body">
+              <div class="problem-solution-box">
+                <div class="problem">
+                  <strong><i data-lucide="alert-triangle"></i> Problem:</strong> When the SSH terminal session closed, the active Node process was terminated, crashing the website.
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="check-circle-2"></i> Solution:</strong> Install PM2 (Process Manager 2) globally to daemonize the application and run it continuously in the background.
+                </div>
+              </div>
+
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>PM2 Core CLI</span>
+                  <button class="copy-btn" data-copy="sudo npm install -g pm2
+pm2 start index.js --name index
+pm2 list
+pm2 logs
+pm2 restart index
+pm2 stop index"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Install PM2 globally
+sudo npm install -g pm2
+
+# Start index.js in background under custom label
+pm2 start index.js --name index
+
+# Useful Management commands:
+pm2 list          # View status of active apps
+pm2 logs          # View live logging
+pm2 restart index # Restart application
+pm2 stop index    # Pause background process</code></pre>
+              </div>
+
+              <div class="info-list">
+                <h3>PM2 Key Benefits</h3>
+                <ul>
+                  <li><strong>Auto restart:</strong> Instantly recovers app if the process throws an unhandled exception.</li>
+                  <li><strong>Process monitoring:</strong> Live metrics of memory usage and CPU core allocation.</li>
+                  <li><strong>Persistence:</strong> Background execution independent of SSH state.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 5 -->
+          <article class="step-card" id="step-5">
+            <div class="step-badge">Step 5</div>
+            <div class="step-header">
+              <h2>Configuring Nginx Reverse Proxy</h2>
+              <span class="step-icon"><i data-lucide="shuffle"></i></span>
+            </div>
+            <div class="step-body">
+              <div class="problem-solution-box">
+                <div class="problem">
+                  <strong><i data-lucide="alert-triangle"></i> Problem:</strong> Exposing Port 3000 directly to the public is insecure and looks unprofessional (users shouldn't type <code>:3000</code> in the browser).
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="check-circle-2"></i> Solution:</strong> Install Nginx to run on standard HTTP Port 80 and forward requests internally to the Node application on Port 3000.
+                </div>
+              </div>
+
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Install & Start Nginx</span>
+                  <button class="copy-btn" data-copy="sudo dnf install nginx -y
+sudo systemctl enable nginx
+sudo systemctl start nginx"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Install Nginx
+sudo dnf install nginx -y
+
+# Enable boot persistence and start service
+sudo systemctl enable nginx
+sudo systemctl start nginx</code></pre>
+              </div>
+
+              <p>Configure the reverse proxy routing rules inside Nginx server blocks:</p>
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>/etc/nginx/nginx.conf Server Block</span>
+                  <button class="copy-btn" data-copy="server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>server {
+    listen 80;
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}</code></pre>
+              </div>
+
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Verify and Reload Nginx</span>
+                  <button class="copy-btn" data-copy="sudo nginx -t
+sudo systemctl reload nginx"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Audit config for syntax errors
+sudo nginx -t
+
+# Apply settings dynamically without downtime
+sudo systemctl reload nginx</code></pre>
+              </div>
+
+              <div class="flow-diagram-mini">
+                <span class="flow-node">User Request</span>
+                <span class="flow-arrow"><i data-lucide="arrow-right"></i></span>
+                <span class="flow-node highlight">Nginx (:80)</span>
+                <span class="flow-arrow"><i data-lucide="arrow-right"></i></span>
+                <span class="flow-node">Node.js (:3000)</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 6 -->
+          <article class="step-card" id="step-6">
+            <div class="step-badge">Step 6</div>
+            <div class="step-header">
+              <h2>Learning AWS CodeBuild</h2>
+              <span class="step-icon"><i data-lucide="hammer"></i></span>
+            </div>
+            <div class="step-body">
+              <p>To automate building directly from code changes pushed to GitHub, I configured AWS CodeBuild. This compiles, tests, and prepares artifacts for deployment.</p>
+              
+              <div class="problem-solution-box error-alert">
+                <div class="problem">
+                  <strong><i data-lucide="x-circle"></i> Error Encountered:</strong> <code>npm ERR! Could not read package.json</code>
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="compass"></i> Reason:</strong> CodeBuild build environment was initialized and ran scripts in the wrong workspace directory.
+                </div>
+              </div>
+
+              <div class="info-list">
+                <h3>Key Lessons</h3>
+                <ul>
+                  <li>Always verify the path in <code>CODEBUILD_SRC_DIR</code> env variable.</li>
+                  <li>Confirm that your repository repository root structure aligns with build settings.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 7 -->
+          <article class="step-card" id="step-7">
+            <div class="step-badge">Step 7</div>
+            <div class="step-header">
+              <h2>S3 Artifact Region Mismatch</h2>
+              <span class="step-icon"><i data-lucide="hard-drive"></i></span>
+            </div>
+            <div class="step-body">
+              <div class="problem-solution-box error-alert">
+                <div class="problem">
+                  <strong><i data-lucide="x-circle"></i> Error Encountered:</strong> <code>BucketRegionError</code>
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="compass"></i> Explanation:</strong> The target S3 deployment bucket was created in <code>us-east-1</code> (N. Virginia), but the active AWS CodeBuild project was executing in <code>ap-south-1</code> (Mumbai).
+                </div>
+              </div>
+
+              <div class="pro-tip-box">
+                <div class="tip-title"><i data-lucide="lightbulb"></i> DevOps Best Practice</div>
+                <p>Keep AWS resources (CodeBuild, S3, EC2 instances) inside the same geographical region. This reduces network latency and prevents regional data transfer costs.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 8 -->
+          <article class="step-card" id="step-8">
+            <div class="step-badge">Step 8</div>
+            <div class="step-header">
+              <h2>AWS Inspector Integration Failure</h2>
+              <span class="step-icon"><i data-lucide="shield-alert"></i></span>
+            </div>
+            <div class="step-body">
+              <div class="problem-solution-box error-alert">
+                <div class="problem">
+                  <strong><i data-lucide="x-circle"></i> Error Encountered:</strong> <code>SubscriptionRequiredException</code>
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="compass"></i> Explanation:</strong> The automated pipeline template attempted to run security scans on the packages using AWS Inspector, but the Inspector service wasn't enabled on my AWS account.
+                </div>
+              </div>
+
+              <p><strong>Solution:</strong> Edited the pipeline template definition and temporarily bypassed the automated Inspector security stage to avoid blocking the build flow.</p>
+            </div>
+          </article>
+
+          <!-- Step 9 -->
+          <article class="step-card" id="step-9">
+            <div class="step-badge">Step 9</div>
+            <div class="step-header">
+              <h2>CodePipeline Empty Test Stage</h2>
+              <span class="step-icon"><i data-lucide="x-circle"></i></span>
+            </div>
+            <div class="step-body">
+              <div class="problem-solution-box error-alert">
+                <div class="problem">
+                  <strong><i data-lucide="x-circle"></i> Error Encountered:</strong> <code>npm test - Error: no test specified</code>
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="compass"></i> Explanation:</strong> The default Node.js boilerplate code includes a test script hook. AWS CodePipeline automatically triggers <code>npm test</code> during compilation. Because I hadn't written test files, the script failed and broke the pipeline.
+                </div>
+              </div>
+
+              <p><strong>Solution:</strong> Configured a placeholder or deleted the test step execution inside <code>package.json</code> scripts:</p>
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>package.json edit</span>
+                  <button class="copy-btn" data-copy='"test": "echo test"'><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>"test": "echo test"</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 10 -->
+          <article class="step-card" id="step-10">
+            <div class="step-badge">Step 10</div>
+            <div class="step-header">
+              <h2>IAM Trust Relationship Permission Error</h2>
+              <span class="step-icon"><i data-lucide="key-round"></i></span>
+            </div>
+            <div class="step-body">
+              <div class="problem-solution-box error-alert">
+                <div class="problem">
+                  <strong><i data-lucide="x-circle"></i> Error Encountered:</strong> <code>codebuild:StartBuild AccessDeniedException</code>
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="compass"></i> Explanation:</strong> The AWS CodePipeline execution role lacked permissions to call the STS assume API or trigger builds via CodeBuild services.
+                </div>
+              </div>
+
+              <p><strong>Solution:</strong> Modified IAM roles policies and added explicit trusts for CodeBuild. Most cloud pipeline issues trace back to IAM policy configuration!</p>
+            </div>
+          </article>
+
+          <!-- Step 11 -->
+          <article class="step-card" id="step-11">
+            <div class="step-badge">Step 11</div>
+            <div class="step-header">
+              <h2>Simplifying AWS CodeDeploy</h2>
+              <span class="step-icon"><i data-lucide="git-commit"></i></span>
+            </div>
+            <div class="step-body">
+              <p>Originally, I designed the pipeline using the complete enterprise stack: <strong>CodePipeline → CodeDeploy → EC2</strong>.</p>
+              <p>However, configuring CodeDeploy agents and AppSpec YAML structure introduced unnecessary complexity. For learning purposes, a streamlined manual shell workflow was faster and more robust:</p>
+              
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Alternative Lightweight Deployment Flow</span>
+                  <button class="copy-btn" data-copy="git pull
+npm install
+pm2 restart index"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Quick Deploy Command Sequence
+git pull
+npm install
+pm2 restart index</code></pre>
+              </div>
+              <p class="pro-tip-box">
+                <i data-lucide="lightbulb"></i> <strong>DevOps Lesson:</strong> Don't over-engineer. Sometimes, simple and manageable setups are better than fully automated but complex pipelines, especially during early project phases.
+              </p>
+            </div>
+          </article>
+
+          <!-- Step 12 -->
+          <article class="step-card" id="step-12">
+            <div class="step-badge">Step 12</div>
+            <div class="step-header">
+              <h2>Custom Domain Integration</h2>
+              <span class="step-icon"><i data-lucide="globe"></i></span>
+            </div>
+            <div class="step-body">
+              <p>To give the application a professional look, I purchased a domain and mapped a specific subdomain pointing to the server:</p>
+              <div class="info-list">
+                <h3>DNS Record Details</h3>
+                <ul>
+                  <li><strong>Target Subdomain:</strong> <code>mayur.cybershieldd.online</code></li>
+                  <li><strong>Record Type:</strong> A Record (Address Mapping)</li>
+                  <li><strong>Value:</strong> <code>3.6.58.203</code> (EC2 Elastic Public IP)</li>
+                </ul>
+              </div>
+              <p class="warning-note"><i data-lucide="alert-triangle"></i> After mapping, domain behaviors were inconsistent, sometimes failing to resolve.</p>
+            </div>
+          </article>
+
+          <!-- Step 13 -->
+          <article class="step-card" id="step-13">
+            <div class="step-badge">Step 13</div>
+            <div class="step-header">
+              <h2>DNS Propagation & Multiple A-Records</h2>
+              <span class="step-icon"><i data-lucide="search"></i></span>
+            </div>
+            <div class="step-body">
+              <p>I investigated the DNS using terminal lookup tools like <code>dig</code> and <code>nslookup</code>:</p>
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>DNS Diagnostic Lookup</span>
+                  <button class="copy-btn" data-copy="dig mayur.cybershieldd.online"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>dig mayur.cybershieldd.online</code></pre>
+              </div>
+
+              <div class="problem-solution-box error-alert">
+                <div class="problem">
+                  <strong><i data-lucide="x-circle"></i> Root Cause:</strong> The lookup revealed that multiple legacy A-Records were still attached to the root domain mapping:
+                  <pre><code>15.197.142.173
+3.33.152.147
+3.6.58.203</code></pre>
+                </div>
+                <div class="solution">
+                  <strong><i data-lucide="check-circle-2"></i> Fix:</strong> Cleared all duplicate registrar records, keeping only the single correct Elastic IP pointer to resolve redirect loops and SSL failures.
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 14 -->
+          <article class="step-card" id="step-14">
+            <div class="step-badge">Step 14</div>
+            <div class="step-header">
+              <h2>HTTP working but HTTPS failing</h2>
+              <span class="step-icon"><i data-lucide="unlock"></i></span>
+            </div>
+            <div class="step-body">
+              <p>At this stage, the domain resolved correctly over insecure HTTP (<code>http://mayur.cybershieldd.online</code>), but request connections over secure HTTPS port 443 were rejected.</p>
+              
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Verify Local SSL Certificates</span>
+                  <button class="copy-btn" data-copy="sudo certbot certificates"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>sudo certbot certificates</code></pre>
+              </div>
+              <p class="error-note"><i data-lucide="x-circle"></i> Output: <code>No certificates found</code>. I needed to request and install a public TLS/SSL certificate.</p>
+            </div>
+          </article>
+
+          <!-- Step 15 -->
+          <article class="step-card" id="step-15">
+            <div class="step-badge">Step 15</div>
+            <div class="step-header">
+              <h2>Requesting & Installing SSL Certificate</h2>
+              <span class="step-icon"><i data-lucide="lock"></i></span>
+            </div>
+            <div class="step-body">
+              <p>I installed **Certbot** and its Nginx automation plugin to request a free certificate from the Let's Encrypt authority:</p>
+              
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>Certbot Installation & Request</span>
+                  <button class="copy-btn" data-copy="sudo dnf install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d mayur.cybershieldd.online"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code># Install packages via DNF
+sudo dnf install certbot python3-certbot-nginx -y
+
+# Request certificate and let Certbot auto-configure Nginx
+sudo certbot --nginx -d mayur.cybershieldd.online</code></pre>
+              </div>
+
+              <p>Verification curl request shows the certificate validation is correct:</p>
+              <div class="code-wrapper">
+                <div class="code-header">
+                  <span>HTTPS Header Check</span>
+                  <button class="copy-btn" data-copy="curl -I https://mayur.cybershieldd.online"><i data-lucide="copy"></i> Copy</button>
+                </div>
+                <pre><code>curl -I https://mayur.cybershieldd.online</code></pre>
+              </div>
+              <p class="success-note"><i data-lucide="check-circle-2"></i> Connection Success! Let's Encrypt CA certificate is active, securing all application traffic.</p>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Guide Footer & Conclusion -->
+        <div class="guide-conclusion hero-card" id="conclusion-section">
+          <h2>Conclusion & Takeaways</h2>
+          <p>What started as a simple Express script evolved into a production-ready application environment on AWS. Cloud engineering isn't about memorizing dashboard buttons; it's about understanding how systems connect and how to troubleshoot infrastructure when configurations fail.</p>
+          <div class="takeaways-list">
+            <div class="takeaway-card">
+              <span class="takeaway-num">01</span>
+              <h4>Config is Key</h4>
+              <p>Most AWS issues are small configuration or networking rule mismatches rather than bad code.</p>
+            </div>
+            <div class="takeaway-card">
+              <span class="takeaway-num">02</span>
+              <h4>DNS First</h4>
+              <p>Always verify DNS mappings using command utilities (dig, nslookup) instead of trusting provider dashboard UIs.</p>
+            </div>
+            <div class="takeaway-card">
+              <span class="takeaway-num">03</span>
+              <h4>IAM Security</h4>
+              <p>AWS pipelines require detailed trust configurations. IAM permissions break a majority of builds.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: INTERACTIVE ARCHITECTURE MAP -->
+      <section class="tab-content" id="tab-architecture">
+        <div class="arch-container">
+          <div class="arch-controls">
+            <h2>System Architecture Map</h2>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-arch="final">Final Production Setup</button>
+              <button class="toggle-btn" data-arch="initial">Initial Basic Setup</button>
+            </div>
+          </div>
+
+          <!-- Final Architecture Layout -->
+          <div class="architecture-view active" id="arch-final">
+            <p class="arch-intro-text">Click on any highlight node below to inspect details about its role, configuration, and security settings.</p>
+            
+            <div class="diagram-grid">
+              
+              <!-- Left side: User flow -->
+              <div class="diagram-canvas">
+                
+                <div class="flow-step-node" data-node="user">
+                  <div class="node-icon"><i data-lucide="users"></i></div>
+                  <div class="node-meta">
+                    <h4>End User</h4>
+                    <p>Web Browser</p>
+                  </div>
+                </div>
+
+                <div class="flow-line-vertical"></div>
+
+                <div class="flow-step-node interactive-node" data-node="domain">
+                  <div class="node-icon"><i data-lucide="globe"></i></div>
+                  <div class="node-meta">
+                    <h4>DNS & Subdomain</h4>
+                    <p>mayur.cybershieldd.online</p>
+                  </div>
+                  <span class="pulse-indicator"></span>
+                </div>
+
+                <div class="flow-line-vertical"></div>
+
+                <div class="flow-step-node interactive-node" data-node="nginx">
+                  <div class="node-icon"><i data-lucide="shuffle"></i></div>
+                  <div class="node-meta">
+                    <h4>Nginx (Port 80/443)</h4>
+                    <p>SSL & Reverse Proxy</p>
+                  </div>
+                  <span class="pulse-indicator"></span>
+                </div>
+
+                <div class="flow-line-vertical"></div>
+
+                <div class="flow-step-node interactive-node" data-node="pm2">
+                  <div class="node-icon"><i data-lucide="cpu"></i></div>
+                  <div class="node-meta">
+                    <h4>PM2 Daemon</h4>
+                    <p>Process Management</p>
+                  </div>
+                  <span class="pulse-indicator"></span>
+                </div>
+
+                <div class="flow-line-vertical"></div>
+
+                <div class="flow-step-node interactive-node" data-node="nodeapp">
+                  <div class="node-icon"><i data-lucide="terminal"></i></div>
+                  <div class="node-meta">
+                    <h4>Node.js Express App</h4>
+                    <p>Listening on Port 3000</p>
+                  </div>
+                  <span class="pulse-indicator"></span>
+                </div>
+
+              </div>
+
+              <!-- Right side: Info Panel -->
+              <div class="node-details-panel" id="node-info-panel">
+                <div class="panel-empty-state">
+                  <i data-lucide="mouse-pointer-click"></i>
+                  <h3>Inspect Architecture Component</h3>
+                  <p>Click on any highlighted item on the map diagram to load deep configuration data, commands, and security metrics.</p>
+                </div>
+                <div class="panel-content hidden">
+                  <h3 id="panel-title">Component Name</h3>
+                  <span class="node-tag" id="panel-tag">Infrastructure</span>
+                  <p class="node-desc" id="panel-desc">Details go here.</p>
+                  
+                  <div class="panel-extra-box">
+                    <h5 id="extra-box-title">Key Configuration</h5>
+                    <pre><code class="language-nginx" id="panel-code"># code snippet</code></pre>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Initial Architecture Layout -->
+          <div class="architecture-view" id="arch-initial">
+            <div class="initial-arch-box">
+              <div class="alert-info-box">
+                <i data-lucide="info"></i>
+                <p>This was the basic layout used at the start of the project. While simple, it has zero recovery features, no domain names, and lacks secure transport protection (SSL).</p>
+              </div>
+              <div class="initial-flow">
+                <div class="flow-step-node">
+                  <div class="node-icon"><i data-lucide="terminal"></i></div>
+                  <div class="node-meta">
+                    <h4>Developer</h4>
+                    <p>Local Machine</p>
+                  </div>
+                </div>
+                <div class="flow-line-vertical"></div>
+                <div class="flow-step-node">
+                  <div class="node-icon"><i data-lucide="github"></i></div>
+                  <div class="node-meta">
+                    <h4>GitHub Repo</h4>
+                    <p>Remote Version Control</p>
+                  </div>
+                </div>
+                <div class="flow-line-vertical"></div>
+                <div class="flow-step-node">
+                  <div class="node-icon"><i data-lucide="server"></i></div>
+                  <div class="node-meta">
+                    <h4>AWS EC2 IP:3000</h4>
+                    <p>Direct HTTP Express Access</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: TROUBLESHOOTING LAB -->
+      <section class="tab-content" id="tab-troubleshooting">
+        <div class="trouble-header">
+          <h2>Troubleshooting Lab</h2>
+          <p>Quick lookup guide for errors encountered during this project build. Search below to filter issues by services or terms.</p>
+          <div class="search-box-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="errorSearch" placeholder="Search by error name, keyword, or service (e.g. IAM, S3, DNS)...">
+          </div>
+        </div>
+
+        <div class="errors-list" id="errorsAccordion">
+          
+          <div class="error-item" data-tags="ssh permission keys key pem">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 1</div>
+              <h3>SSH Key Permissions Too Open</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions for 'MayurKey.pem' are too open.
+It is required that your private key files are NOT accessible by others.</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>In UNIX-like file systems, SSH private keys must have strict user-only read permissions. Secure the file permissions using chmod:</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>CLI Fix</span>
+                      <button class="copy-btn" data-copy="chmod 400 MayurKey.pem"><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code>chmod 400 MayurKey.pem</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="connection port 3000 network express refused">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 2</div>
+              <h3>Website Refused Connection</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>ERR_CONNECTION_REFUSED
+Failed to load resource: net::ERR_CONNECTION_REFUSED</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>Ensure that your Express application is actively running and listening on the specified port. Also confirm the EC2 Security Groups allow incoming connections on that port.</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>Sample Express Server Config</span>
+                      <button class="copy-btn" data-copy="const express = require('express');
+const app = express();
+app.get('/', (req,res) => res.send('Active'));
+app.listen(3000, () => console.log('Listening on port 3000'));"><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code>const express = require('express');
+const app = express();
+
+app.get('/', (req,res) => {
+    res.send("Active Hello World");
+});
+
+app.listen(3000, () => {
+    console.log("Server Running on Port 3000");
+});</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="pm2 daemon background service already running">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 3</div>
+              <h3>PM2 Process Already Exists</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>[PM2][ERROR] Script already launched, use 'pm2 restart index' or 'pm2 reload index'</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>Instead of executing <code>pm2 start</code> repeatedly, view running processes using <code>pm2 list</code> and restart the existing entry.</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>CLI Fix</span>
+                      <button class="copy-btn" data-copy="pm2 list
+pm2 restart index"><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code># Show active processes
+pm2 list
+
+# Restart the application safely
+pm2 restart index</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="package json npm install package.json missing directory">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 4</div>
+              <h3>Package.json Missing</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>npm ERR! code ENOENT
+npm ERR! syscall open
+npm ERR! path /home/ec2-user/project/package.json
+npm ERR! errno -2
+npm ERR! enoent ENOENT: no such file or directory, open 'package.json'</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>This happens when running npm command inside directories that do not contain project packages. Initialize a new project structure or navigate to the repository directory.</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>CLI Fix</span>
+                      <button class="copy-btn" data-copy="npm init -y"><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code># Generate package.json in the current working directory
+npm init -y</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="s3 bucket region codebuild buildspec error ap-south-1 us-east-1">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 5</div>
+              <h3>S3 Bucket Region Mismatch</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>BucketRegionError:
+The bucket you are attempting to access is in region us-east-1,
+but the client is configured to connect to region ap-south-1.</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>Create S3 deployment storage buckets in the exact region where your CodeBuild service project operates.</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>AWS CLI Bucket Creation</span>
+                      <button class="copy-btn" data-copy="aws s3api create-bucket --bucket my-devops-bucket --region ap-south-1 --create-bucket-configuration LocationConstraint=ap-south-1"><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code>aws s3api create-bucket \
+    --bucket my-devops-bucket \
+    --region ap-south-1 \
+    --create-bucket-configuration LocationConstraint=ap-south-1</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="npm test errors failed pipeline codepipeline buildspec test">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 6</div>
+              <h3>CodePipeline Test Failure</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>npm ERR! Lifecycle script `test` failed with error code 1.
+npm ERR! Failed at the test script 'echo "Error: no test specified" && exit 1'.</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>Boilerplate code exit scripts block automated builders. Replace the default exit placeholder inside the <code>package.json</code> file.</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>package.json scripts block</span>
+                      <button class="copy-btn" data-copy='"test": "echo \"Test Skipped\""'><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code>"scripts": {
+  "test": "echo \"Test Skipped\""
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="iam security policy assumerole sts codebuild access denied">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 7</div>
+              <h3>CodeBuild STS AssumeRole Denied</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>CodeBuild is not authorized to perform sts:AssumeRole for role arn:aws:iam::123456789:role/PipelineRole</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>Include the <code>codebuild.amazonaws.com</code> principal entity inside the trust relationship document schema linked to the AWS role.</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>Trust Relationship Policy Document</span>
+                      <button class="copy-btn" data-copy='{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "codebuild.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}'><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "codebuild.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="github connection oauth access token pipeline webhook">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 8</div>
+              <h3>GitHub Webhook Access Denied</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>Webhook creation failed. Access Denied: Developer OAuth integration lacks scope 'admin:repo_hook'</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>In the AWS Console, re-authorize your GitHub repository connection. Use <strong>AWS CodeConnections</strong> and grant full administration scopes for webhooks so AWS can trigger pipeline builds automatically on repository pushes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="aws inspector security vulnerability scan pipeline subscription">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 9</div>
+              <h3>Inspector Scan Failed</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>SubscriptionRequiredException:
+Account is not subscribed to Amazon Inspector.
+Please activate the service in the AWS dashboard.</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>AWS Cloud template templates often invoke Amazon Inspector by default. If your account is on the Free Tier and doesn't use Inspector, edit the pipeline JSON templates or CloudFormation build steps to remove or comment out the security audit stage.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-item" data-tags="codedeploy deploy agent service systemctl install ec2 ruby">
+            <div class="error-trigger">
+              <div class="error-meta-badge">Error 10</div>
+              <h3>CodeDeploy Agent Missing</h3>
+              <i data-lucide="chevron-down" class="accordion-arrow"></i>
+            </div>
+            <div class="error-details">
+              <div class="error-desc-grid">
+                <div>
+                  <h4>Console Warning:</h4>
+                  <pre class="error-text"><code>InstanceAgent::Plugins::CodeDeployPlugin::CommandPoller:
+No agent configuration or service 'codedeploy-agent' is inactive.</code></pre>
+                </div>
+                <div>
+                  <h4>Actionable Solution:</h4>
+                  <p>Login to the target EC2 node via SSH. Install Ruby and download the regional AWS CodeDeploy package script wrapper to run agent services:</p>
+                  <div class="code-wrapper">
+                    <div class="code-header">
+                      <span>EC2 SSH Installer Commands</span>
+                      <button class="copy-btn" data-copy="sudo dnf install ruby wget -y
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+chmod +x install
+sudo ./install auto
+sudo systemctl status codedeploy-agent"><i data-lucide="copy"></i> Copy</button>
+                    </div>
+                    <pre><code># Install dependencies
+sudo dnf install ruby wget -y
+
+# Download install wrapper from Amazon S3 (Mumbai Region example)
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+chmod +x install
+
+# Run installer script
+sudo ./install auto
+
+# Confirm service is up
+sudo systemctl status codedeploy-agent</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      
+    </main>
+
+    <!-- COLUMN 3: RIGHT PANEL (Quick Actions, Command Center, Skills, Stats) -->
+    <aside class="quick-panel">
+      
+      <!-- Panel Header Stats -->
+      <div class="panel-section stats-section">
+        <h3>Project Stats</h3>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-number">15</span>
+            <span class="stat-label">Setup Steps</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">10</span>
+            <span class="stat-label">Errors Fixed</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">Free</span>
+            <span class="stat-label">AWS Cost</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command Center Quick Copy -->
+      <div class="panel-section commands-section">
+        <div class="section-title">
+          <h3>Command Center</h3>
+          <span class="subtitle-label">Quick Copy CLI</span>
+        </div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="cmd-desc">1. Connect to Instance</div>
+            <div class="cmd-code-row">
+              <code>ssh -i key.pem ec2-user@IP</code>
+              <button class="copy-icon-btn" data-copy="ssh -i key.pem ec2-user@" title="Copy"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="cmd-desc">2. Launch Application (PM2)</div>
+            <div class="cmd-code-row">
+              <code>pm2 start index.js --name index</code>
+              <button class="copy-icon-btn" data-copy="pm2 start index.js --name index" title="Copy"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="cmd-desc">3. Verify Nginx Configuration</div>
+            <div class="cmd-code-row">
+              <code>sudo nginx -t</code>
+              <button class="copy-icon-btn" data-copy="sudo nginx -t" title="Copy"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="cmd-desc">4. Reload Nginx Webserver</div>
+            <div class="cmd-code-row">
+              <code>sudo systemctl reload nginx</code>
+              <button class="copy-icon-btn" data-copy="sudo systemctl reload nginx" title="Copy"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="cmd-desc">5. Diagnostic DNS Lookup</div>
+            <div class="cmd-code-row">
+              <code>dig mayur.cybershieldd.online</code>
+              <button class="copy-icon-btn" data-copy="dig mayur.cybershieldd.online" title="Copy"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="cmd-desc">6. Install TLS/SSL (Certbot)</div>
+            <div class="cmd-code-row">
+              <code>sudo certbot --nginx</code>
+              <button class="copy-icon-btn" data-copy="sudo certbot --nginx" title="Copy"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Block -->
+      <div class="panel-section skills-section">
+        <h3>Skills Acquired</h3>
+        <div class="badge-group">
+          <span class="skill-badge-card">
+            <span class="skill-title">AWS Services</span>
+            <span class="skill-tags">EC2 • IAM • S3 • CodeBuild • CodePipeline</span>
+          </span>
+          <span class="skill-badge-card">
+            <span class="skill-title">Linux Administration</span>
+            <span class="skill-tags">SSH • package managers (dnf) • systemctl services</span>
+          </span>
+          <span class="skill-badge-card">
+            <span class="skill-title">DevOps Tools</span>
+            <span class="skill-tags">Nginx Proxy • PM2 • SSL/TLS (Certbot)</span>
+          </span>
+          <span class="skill-badge-card">
+            <span class="skill-title">Networking Principles</span>
+            <span class="skill-tags">HTTP/S • DNS A-Records • Port forwards</span>
+          </span>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
